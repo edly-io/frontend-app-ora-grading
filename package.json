@@ -24,10 +24,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@edx/brand": "npm:@edly-io/sdaia-brand-openedx@^1.0.0",
-    "@edx/frontend-component-footer": "^11.1.1",
-    "@edx/frontend-component-header": "^3.1.1",
-    "@edx/frontend-platform": "^2.5.1",
+    "@edx/brand": "npm:@edly-io/sdaia-brand-openedx@^1.0.4",
+    "@edx/frontend-component-footer": "npm:@edly-io/sdaia-frontend-footer@^1.0.0",
+    "@edx/frontend-component-header": "npm:@edly-io/sdaia-frontend-header@^1.0.0",
+    "@edx/frontend-platform": "4.2.0",
     "@edx/paragon": "^19.9.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
@@ -73,6 +73,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
+    "@edx/browserslist-config": "^1.0.0",
     "@edx/frontend-build": "12.4",
     "@edx/reactifex": "^2.1.1",
     "@testing-library/jest-dom": "^5.14.1",
