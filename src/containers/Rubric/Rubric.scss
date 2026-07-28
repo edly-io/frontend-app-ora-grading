@@ -36,6 +36,15 @@
   margin-top: 1rem;
 }
 
+.feedback-input {
+  textarea.form-control {
+    min-height: 6rem;
+    max-height: 15rem;
+    overflow-y: auto;
+    resize: vertical;
+  }
+}
+
 .popover.overlay-help-popover {
   z-index: 4000;
   margin-right: var(--pgn-spacing-spacer-1) !important;
