@@ -20,6 +20,10 @@ export const initialize = () => (dispatch) => {
       dispatch(actions.app.loadIsEnabled(response.isEnabled));
       dispatch(actions.app.loadOraMetadata(response.oraMetadata));
       dispatch(actions.app.loadCourseMetadata(response.courseMetadata));
+      dispatch(actions.app.loadOraExtras({
+        oraParentName: response.oraParentName,
+        courseOras: response.courseOras,
+      }));
       dispatch(actions.submissions.loadList(response.submissions));
     },
   }));

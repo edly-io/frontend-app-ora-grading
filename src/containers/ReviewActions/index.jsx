@@ -12,6 +12,7 @@ import StatusBadge from 'components/StatusBadge';
 import StartGradingButton from './components/StartGradingButton';
 import SubmissionNavigation from './components/SubmissionNavigation';
 import messages from './messages';
+import EdlyOraNavRow from './EdlyOraNavRow';
 
 import './ReviewActions.scss';
 
@@ -51,6 +52,7 @@ export const ReviewActions = ({
         <SubmissionNavigation />
       </div>
     </ActionRow>
+    <EdlyOraNavRow />
   </div>
 );
 ReviewActions.defaultProps = {
