@@ -34,6 +34,8 @@ describe('app thunkActions', () => {
           courseMetadata: { some: 'course-metadata' },
           isEnabled: { is: 'enabled?' },
           oraMetadata: { some: 'ora-metadata' },
+          oraParentName: 'some-unit',
+          courseOras: [{ locationId: 'some-ora', name: 'ora', parentName: 'some-unit' }],
           submissions: { some: 'submissions' },
         };
         dispatch.mockClear();
@@ -42,6 +44,10 @@ describe('app thunkActions', () => {
           [actions.app.loadIsEnabled(response.isEnabled)],
           [actions.app.loadOraMetadata(response.oraMetadata)],
           [actions.app.loadCourseMetadata(response.courseMetadata)],
+          [actions.app.loadOraExtras({
+            oraParentName: response.oraParentName,
+            courseOras: response.courseOras,
+          })],
           [actions.submissions.loadList(response.submissions)],
         ]);
       });

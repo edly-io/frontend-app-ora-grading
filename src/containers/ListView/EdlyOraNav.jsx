@@ -1,87 +1,117 @@
 /**
- * EDLYPRODUCT-8522 — session identifier + Prev/Next ORA navigation.
+ * EDLYPRODUCT-8522 — Prev/Next navigation across the open responses of a course.
  * Self-contained so that ListViewBreadcrumb.jsx stays near-upstream.
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { ArrowBack, ArrowForward } from '@openedx/paragon/icons';
-import { Icon, IconButton } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { ChevronLeft, ChevronRight } from '@openedx/paragon/icons';
+import { Button, OverlayTrigger, Tooltip } from '@openedx/paragon';
+import { getConfig, getPath } from '@edx/frontend-platform';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import { selectors } from 'data/redux';
 import { locationId } from 'data/constants/app';
 import edlyMessages from './edlyMessages';
 
-function navigateToOra(currentId, targetId) {
-  const newPathname = window.location.pathname.replace(currentId, targetId);
-  window.location.href = `${window.location.origin}${newPathname}`;
-}
+export const oraShape = PropTypes.shape({
+  locationId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  parentName: PropTypes.string,
+});
 
-export const EdlyOraNav = ({ oraParentName, courseOras }) => {
+/**
+ * locationId() reads the path as `publicPath + decoded block id`, so rebuild it the
+ * same way rather than string-replacing inside the (possibly encoded) pathname.
+ */
+export const navigateToOra = (targetId) => {
+  window.location.assign(`${getPath(getConfig().PUBLIC_PATH)}${encodeURIComponent(targetId)}`);
+};
+
+export const OraNavButton = ({
+  ora, label, icon, isNext, tooltipId,
+}) => {
+  const button = (
+    <Button
+      variant="link"
+      size="sm"
+      className="edly-ora-nav-button"
+      disabled={!ora}
+      iconBefore={isNext ? undefined : icon}
+      iconAfter={isNext ? icon : undefined}
+      onClick={() => ora && navigateToOra(ora.locationId)}
+    >
+      {label}
+    </Button>
+  );
+  // A disabled button emits no pointer events, so it can't anchor a tooltip.
+  if (!ora) { return button; }
+  return (
+    <OverlayTrigger
+      placement="bottom"
+      overlay={(
+        <Tooltip id={tooltipId}>
+          <span className="d-block">{ora.name}</span>
+          {ora.parentName && <span className="d-block small">{ora.parentName}</span>}
+        </Tooltip>
+      )}
+    >
+      {button}
+    </OverlayTrigger>
+  );
+};
+OraNavButton.defaultProps = { ora: null };
+OraNavButton.propTypes = {
+  ora: oraShape,
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.func.isRequired,
+  isNext: PropTypes.bool.isRequired,
+  tooltipId: PropTypes.string.isRequired,
+};
+
+export const EdlyOraNav = ({ courseOras }) => {
   const intl = useIntl();
-  const currentId = locationId();
-  const currentIndex = courseOras.findIndex(ora => ora.locationId === currentId);
-  const prevOra = currentIndex > 0 ? courseOras[currentIndex - 1] : null;
-  const nextOra = (currentIndex >= 0 && currentIndex < courseOras.length - 1)
-    ? courseOras[currentIndex + 1] : null;
+  const currentIndex = courseOras.findIndex(ora => ora.locationId === locationId());
 
-  if (!oraParentName && courseOras.length <= 1) { return null; }
+  if (courseOras.length <= 1 || currentIndex < 0) { return null; }
+
+  const values = { current: currentIndex + 1, total: courseOras.length };
 
   return (
-    <div className="mb-2">
-      {oraParentName && (
-        <p className="mb-1 small text-gray-500">{oraParentName}</p>
-      )}
-      {courseOras.length > 1 && (
-        <div className="d-flex align-items-center" style={{ gap: '0.25rem' }}>
-          <IconButton
-            src={ArrowBack}
-            iconAs={Icon}
-            variant="primary"
-            disabled={!prevOra}
-            onClick={() => prevOra && navigateToOra(currentId, prevOra.locationId)}
-            aria-label={intl.formatMessage(edlyMessages.prevOra)}
-            title={prevOra ? `${prevOra.parentName}: ${prevOra.name}` : undefined}
-            size="sm"
-          />
-          {currentIndex >= 0 && (
-            <span className="small text-gray-500 px-1">
-              {currentIndex + 1}&nbsp;/&nbsp;{courseOras.length}
-            </span>
-          )}
-          <IconButton
-            src={ArrowForward}
-            iconAs={Icon}
-            variant="primary"
-            disabled={!nextOra}
-            onClick={() => nextOra && navigateToOra(currentId, nextOra.locationId)}
-            aria-label={intl.formatMessage(edlyMessages.nextOra)}
-            title={nextOra ? `${nextOra.parentName}: ${nextOra.name}` : undefined}
-            size="sm"
-          />
-        </div>
-      )}
-    </div>
+    <nav
+      className="edly-ora-nav"
+      aria-label={intl.formatMessage(edlyMessages.oraNavLabel, values)}
+    >
+      <OraNavButton
+        ora={currentIndex > 0 ? courseOras[currentIndex - 1] : null}
+        label={intl.formatMessage(edlyMessages.prevOra)}
+        icon={ChevronLeft}
+        isNext={false}
+        tooltipId="edly-ora-nav-prev"
+      />
+      <span className="edly-ora-nav-count small text-gray-600">
+        <FormattedMessage {...edlyMessages.oraPosition} values={values} />
+      </span>
+      <OraNavButton
+        ora={currentIndex < courseOras.length - 1 ? courseOras[currentIndex + 1] : null}
+        label={intl.formatMessage(edlyMessages.nextOra)}
+        icon={ChevronRight}
+        isNext
+        tooltipId="edly-ora-nav-next"
+      />
+    </nav>
   );
 };
 
 EdlyOraNav.defaultProps = {
-  oraParentName: '',
   courseOras: [],
 };
 EdlyOraNav.propTypes = {
-  oraParentName: PropTypes.string,
-  courseOras: PropTypes.arrayOf(PropTypes.shape({
-    locationId: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    parentName: PropTypes.string.isRequired,
-  })),
+  courseOras: PropTypes.arrayOf(oraShape),
 };
 
 export const mapStateToProps = (state) => ({
-  oraParentName: selectors.app.oraParentName(state),
   courseOras: selectors.app.courseOras(state),
 });
 

@@ -3,6 +3,39 @@ span.pgn__icon.breadcrumb-arrow {
   height: 16px !important;
 };
 
+// EDLYPRODUCT-8522 — ORA title block with course-level prev/next navigation.
+.ora-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--pgn-spacing-spacer-2);
+  padding: var(--pgn-spacing-spacer-3) 0;
+
+  .ora-header-unit {
+    margin-bottom: var(--pgn-spacing-spacer-1);
+    line-height: 1.2;
+  }
+}
+
+.edly-ora-nav {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--pgn-spacing-spacer-2);
+
+  .edly-ora-nav-count {
+    white-space: nowrap;
+  }
+
+  // Nav is secondary to the title: keep the links compact and off the baseline grid.
+  .edly-ora-nav-button {
+    padding-left: var(--pgn-spacing-spacer-2);
+    padding-right: var(--pgn-spacing-spacer-2);
+    text-decoration: none;
+  }
+}
+
 .empty-submission {
   width: var(--pgn-size-container-max-width-sm);
   display: flex;

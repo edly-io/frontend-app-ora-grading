@@ -56,6 +56,18 @@ describe('app reducer', () => {
       test('loadOraMetadata loads oraMetadata from payload', () => {
         testAction(actions.loadOraMetadata(testValue), { oraMetadata: testValue });
       });
+      describe('loadOraExtras', () => {
+        const courseOras = [{ locationId: 'ora-1', name: 'ora', parentName: 'unit' }];
+        it('loads oraParentName and courseOras from payload', () => {
+          testAction(
+            actions.loadOraExtras({ oraParentName: testValue, courseOras }),
+            { oraParentName: testValue, courseOras },
+          );
+        });
+        it('falls back to empty values when the payload omits them', () => {
+          testAction(actions.loadOraExtras({}), { oraParentName: '', courseOras: [] });
+        });
+      });
       describe('setShowReview', () => {
         it('loads showReview, sets showRubric to false if set to false', () => {
           testAction(actions.setShowReview(true), { showReview: true });
