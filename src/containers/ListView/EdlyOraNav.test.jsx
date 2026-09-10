@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { selectors } from 'data/redux';
 import { renderWithIntl } from '../../testUtils';
 import { EdlyOraNav, mapStateToProps } from './EdlyOraNav';
 
@@ -30,10 +29,15 @@ const courseOras = [
 
 describe('EdlyOraNav component', () => {
   const assign = jest.fn();
+  const realLocation = window.location;
 
   beforeAll(() => {
     delete window.location;
     window.location = { assign };
+  });
+
+  afterAll(() => {
+    window.location = realLocation;
   });
 
   beforeEach(() => {
@@ -91,8 +95,7 @@ describe('EdlyOraNav component', () => {
 
   describe('mapStateToProps', () => {
     it('maps courseOras from app.courseOras selector', () => {
-      const testState = { courseOras };
-      expect(mapStateToProps(testState).courseOras).toEqual(selectors.app.courseOras(testState));
+      expect(mapStateToProps({ courseOras }).courseOras).toEqual(courseOras);
     });
   });
 });

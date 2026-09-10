@@ -1,6 +1,11 @@
 /**
- * EDLYPRODUCT-8522 — section > subsection > unit trail identifying which part of
- * the course the ORA being graded belongs to.
+ * <EdlyOraBreadcrumb />
+ *
+ * Edly addition rendered inside upstream's <ListViewBreadcrumb />: the
+ * section > subsection > unit trail, so a grader can tell which part of the
+ * course an ORA belongs to. `oraBreadcrumb` comes from the edly-features-app
+ * override of the ESG initialize endpoint, and is empty against an LMS
+ * without it, which hides the trail.
  */
 import React from 'react';
 import PropTypes from 'prop-types';

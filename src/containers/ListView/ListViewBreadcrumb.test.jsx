@@ -17,7 +17,7 @@ jest.mock('data/redux', () => ({
   },
 }));
 
-// connected children, exercised in their own test files
+// Edly-added connected children; exercised in their own test files.
 jest.mock('./EdlyOraBreadcrumb', () => () => null);
 jest.mock('./EdlyOraNav', () => () => null);
 

@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react';
 
-import { selectors } from 'data/redux';
 import { renderWithIntl } from '../../testUtils';
 import { EdlyOraBreadcrumb, mapStateToProps } from './EdlyOraBreadcrumb';
 
@@ -28,9 +27,7 @@ describe('EdlyOraBreadcrumb component', () => {
 
   describe('mapStateToProps', () => {
     it('maps oraBreadcrumb from app.oraBreadcrumb selector', () => {
-      const testState = { oraBreadcrumb };
-      expect(mapStateToProps(testState).oraBreadcrumb)
-        .toEqual(selectors.app.oraBreadcrumb(testState));
+      expect(mapStateToProps({ oraBreadcrumb }).oraBreadcrumb).toEqual(oraBreadcrumb);
     });
   });
 });

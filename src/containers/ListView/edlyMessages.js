@@ -1,8 +1,8 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 /**
- * EDLYPRODUCT-8522 — i18n strings for Prev/Next ORA navigation.
- * Kept separate to avoid merge conflicts on upstream messages.js upgrades.
+ * Strings for the Edly-added ORA navigation. Separate from the upstream
+ * messages.js so upstream upgrades do not conflict here.
  */
 const edlyMessages = defineMessages({
   prevOra: {

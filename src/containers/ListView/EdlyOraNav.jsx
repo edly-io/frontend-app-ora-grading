@@ -1,6 +1,11 @@
 /**
- * EDLYPRODUCT-8522 — Prev/Next navigation across the open responses of a course.
- * Self-contained so that ListViewBreadcrumb.jsx stays near-upstream.
+ * <EdlyOraNav />
+ *
+ * Edly addition: steps through the course's open responses in outline order, so
+ * a grader need not return to the instructor dashboard between ORAs. `courseOras`
+ * comes from the edly-features-app override of the ESG initialize endpoint, and
+ * is empty against an LMS without it, which hides these controls. Its own file
+ * so upstream's ListViewBreadcrumb.jsx only gains a child tag.
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -20,10 +25,8 @@ export const oraShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
-/**
- * locationId() reads the path as `publicPath + decoded block id`, so rebuild it the
- * same way rather than string-replacing inside the (possibly encoded) pathname.
- */
+// Full reload on purpose: locationId() is read from the URL at load, so the app
+// re-initializes for the new ORA. Path is rebuilt the way locationId() parses it.
 export const navigateToOra = (targetId) => {
   window.location.assign(`${getPath(getConfig().PUBLIC_PATH)}${encodeURIComponent(targetId)}`);
 };
