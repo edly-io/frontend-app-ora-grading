@@ -57,15 +57,16 @@ describe('app reducer', () => {
         testAction(actions.loadOraMetadata(testValue), { oraMetadata: testValue });
       });
       describe('loadOraExtras', () => {
-        const courseOras = [{ locationId: 'ora-1', name: 'ora', parentName: 'unit' }];
-        it('loads oraParentName and courseOras from payload', () => {
+        const courseOras = [{ locationId: 'ora-1', name: 'ora' }];
+        const oraBreadcrumb = ['Section', 'Subsection', 'Unit'];
+        it('loads oraBreadcrumb and courseOras from payload', () => {
           testAction(
-            actions.loadOraExtras({ oraParentName: testValue, courseOras }),
-            { oraParentName: testValue, courseOras },
+            actions.loadOraExtras({ oraBreadcrumb, courseOras }),
+            { oraBreadcrumb, courseOras },
           );
         });
         it('falls back to empty values when the payload omits them', () => {
-          testAction(actions.loadOraExtras({}), { oraParentName: '', courseOras: [] });
+          testAction(actions.loadOraExtras({}), { oraBreadcrumb: [], courseOras: [] });
         });
       });
       describe('setShowReview', () => {

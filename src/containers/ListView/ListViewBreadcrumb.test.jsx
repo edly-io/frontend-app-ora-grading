@@ -10,7 +10,6 @@ jest.mock('data/redux', () => ({
   selectors: {
     app: {
       courseId: jest.fn((state) => state.courseId || 'test-course-id'),
-      oraParentName: jest.fn((state) => state.oraParentName || 'test-ora-parent-name'),
       ora: {
         name: jest.fn((state) => state.oraName || 'test-ora-name'),
       },
@@ -18,7 +17,8 @@ jest.mock('data/redux', () => ({
   },
 }));
 
-// connected child, exercised in EdlyOraNav.test.jsx
+// connected children, exercised in their own test files
+jest.mock('./EdlyOraBreadcrumb', () => () => null);
 jest.mock('./EdlyOraNav', () => () => null);
 
 jest.mock('data/services/lms/urls', () => ({
@@ -34,7 +34,6 @@ describe('ListViewBreadcrumb component', () => {
   const props = {
     courseId: 'test-course-id',
     oraName: 'fake-ora-name',
-    oraParentName: 'fake-unit-name',
   };
 
   beforeEach(() => {
@@ -65,16 +64,6 @@ describe('ListViewBreadcrumb component', () => {
       expect(oraLink).toBeInTheDocument();
     });
 
-    it('displays the parent unit name above the ORA name', () => {
-      renderWithIntl(<ListViewBreadcrumb {...props} />);
-      expect(screen.getByText(props.oraParentName)).toBeInTheDocument();
-    });
-
-    it('omits the parent unit name when it is not available', () => {
-      renderWithIntl(<ListViewBreadcrumb {...props} oraParentName="" />);
-      expect(screen.queryByText(props.oraParentName)).not.toBeInTheDocument();
-    });
-
     it('displays back to responses text', () => {
       renderWithIntl(<ListViewBreadcrumb {...props} />);
       expect(screen.getByText('Back to all open responses')).toBeInTheDocument();
@@ -92,11 +81,6 @@ describe('ListViewBreadcrumb component', () => {
     it('maps oraName from app.ora.name selector', () => {
       const mapped = mapStateToProps(testState);
       expect(mapped.oraName).toEqual(selectors.app.ora.name(testState));
-    });
-
-    it('maps oraParentName from app.oraParentName selector', () => {
-      const mapped = mapStateToProps(testState);
-      expect(mapped.oraParentName).toEqual(selectors.app.oraParentName(testState));
     });
   });
 });

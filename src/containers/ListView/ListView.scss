@@ -12,9 +12,13 @@ span.pgn__icon.breadcrumb-arrow {
   gap: var(--pgn-spacing-spacer-2);
   padding: var(--pgn-spacing-spacer-3) 0;
 
-  .ora-header-unit {
+  .ora-header-crumbs {
     margin-bottom: var(--pgn-spacing-spacer-1);
     line-height: 1.2;
+  }
+
+  .ora-header-crumb-spacer {
+    padding: 0 var(--pgn-spacing-spacer-1);
   }
 }
 

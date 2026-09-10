@@ -1,0 +1,38 @@
+/**
+ * EDLYPRODUCT-8522 — section > subsection > unit trail identifying which part of
+ * the course the ORA being graded belongs to.
+ */
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { selectors } from 'data/redux';
+
+export const EdlyOraBreadcrumb = ({ oraBreadcrumb }) => {
+  if (!oraBreadcrumb.length) { return null; }
+  return (
+    <p className="ora-header-crumbs small text-gray-600">
+      {oraBreadcrumb.map((name, index) => (
+        // names are the only identity available; index keeps repeats distinct
+        // eslint-disable-next-line react/no-array-index-key
+        <React.Fragment key={`${name}-${index}`}>
+          {index > 0 && <span className="ora-header-crumb-spacer" aria-hidden="true">/</span>}
+          {name}
+        </React.Fragment>
+      ))}
+    </p>
+  );
+};
+
+EdlyOraBreadcrumb.defaultProps = {
+  oraBreadcrumb: [],
+};
+EdlyOraBreadcrumb.propTypes = {
+  oraBreadcrumb: PropTypes.arrayOf(PropTypes.string),
+};
+
+export const mapStateToProps = (state) => ({
+  oraBreadcrumb: selectors.app.oraBreadcrumb(state),
+});
+
+export default connect(mapStateToProps)(EdlyOraBreadcrumb);

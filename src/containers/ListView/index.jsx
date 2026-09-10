@@ -32,15 +32,14 @@ export class ListView extends React.Component {
     } = this.props;
     return (
       <Container className="py-4">
-        {isLoaded
-          && (isEmptySubmissionData ? (
-            <EmptySubmission courseId={courseId} />
-          ) : (
-            <>
-              <ListViewBreadcrumb />
-              <SubmissionsTable />
-            </>
-          ))}
+        {isLoaded && (
+          <>
+            <ListViewBreadcrumb />
+            {isEmptySubmissionData
+              ? <EmptySubmission courseId={courseId} />
+              : <SubmissionsTable />}
+          </>
+        )}
         {hasError && <ListError />}
         {!isLoaded && !hasError && (
           <div className="w-100 h-100 text-center">

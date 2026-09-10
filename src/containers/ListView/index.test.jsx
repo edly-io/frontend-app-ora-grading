@@ -135,10 +135,12 @@ describe('ListView component', () => {
           'When learners submit responses, they will appear here',
         ),
       ).toBeInTheDocument();
-      expect(
-        screen.queryByText('Back to all open responses'),
-      ).not.toBeInTheDocument();
       expect(screen.queryByTestId('submissions-table')).not.toBeInTheDocument();
+    });
+
+    it('keeps the breadcrumb and ORA navigation on the empty state', () => {
+      renderWithIntl(<ListView {...props} isLoaded isEmptySubmissionData />);
+      expect(screen.getByTestId('breadcrumb')).toBeInTheDocument();
     });
 
     it('displays ListError component when there is an error', () => {

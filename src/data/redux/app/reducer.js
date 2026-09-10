@@ -16,7 +16,7 @@ const initialState = {
     type: '',
     rubricConfig: null,
   },
-  oraParentName: '',
+  oraBreadcrumb: [],
   courseOras: [],
   showReview: false,
   showRubric: false,
@@ -32,7 +32,7 @@ const app = createSlice({
     loadOraMetadata: (state, { payload }) => ({ ...state, oraMetadata: payload }),
     loadOraExtras: (state, { payload }) => ({
       ...state,
-      oraParentName: payload.oraParentName || '',
+      oraBreadcrumb: payload.oraBreadcrumb || [],
       courseOras: payload.courseOras || [],
     }),
     setShowReview: (state, { payload }) => ({

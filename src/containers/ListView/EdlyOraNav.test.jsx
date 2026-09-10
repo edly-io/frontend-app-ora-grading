@@ -23,9 +23,9 @@ jest.mock('@edx/frontend-platform', () => ({
 }));
 
 const courseOras = [
-  { locationId: 'ora-1', name: 'Peer essay', parentName: 'Week 1' },
-  { locationId: 'ora-2', name: 'Self review', parentName: 'Week 2' },
-  { locationId: 'ora-3', name: 'Final project', parentName: 'Week 3' },
+  { locationId: 'ora-1', name: 'Peer essay' },
+  { locationId: 'ora-2', name: 'Self review' },
+  { locationId: 'ora-3', name: 'Final project' },
 ];
 
 describe('EdlyOraNav component', () => {

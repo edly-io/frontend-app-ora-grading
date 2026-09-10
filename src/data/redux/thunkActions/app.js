@@ -21,7 +21,7 @@ export const initialize = () => (dispatch) => {
       dispatch(actions.app.loadOraMetadata(response.oraMetadata));
       dispatch(actions.app.loadCourseMetadata(response.courseMetadata));
       dispatch(actions.app.loadOraExtras({
-        oraParentName: response.oraParentName,
+        oraBreadcrumb: response.oraBreadcrumb,
         courseOras: response.courseOras,
       }));
       dispatch(actions.submissions.loadList(response.submissions));
