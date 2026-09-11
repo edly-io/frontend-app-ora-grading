@@ -49,6 +49,7 @@ export const RubricFeedback = ({
       <Form.Control
         as="textarea"
         className="rubric-feedback feedback-input"
+        rows={6}
         floatingLabel={inputLabel}
         value={value}
         onChange={onChange}

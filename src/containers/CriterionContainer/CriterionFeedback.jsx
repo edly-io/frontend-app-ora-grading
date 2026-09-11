@@ -48,6 +48,7 @@ export const CriterionFeedback = ({
       <Form.Control
         as="textarea"
         className="criterion-feedback feedback-input"
+        rows={6}
         data-testid="criterion-feedback-input"
         floatingLabel={getCommentMessage()}
         value={value}
