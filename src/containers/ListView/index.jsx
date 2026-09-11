@@ -28,19 +28,20 @@ export class ListView extends React.Component {
 
   render() {
     const {
-      isLoaded, hasError, courseId, isEmptySubmissionData,
+      isLoaded, hasError, isEmptySubmissionData,
     } = this.props;
     return (
       <Container className="py-4">
-        {isLoaded
-          && (isEmptySubmissionData ? (
-            <EmptySubmission courseId={courseId} />
-          ) : (
-            <>
-              <ListViewBreadcrumb />
-              <SubmissionsTable />
-            </>
-          ))}
+        {isLoaded && (
+          <>
+            {/* Breadcrumb lifted out of the non-empty branch: an ORA with no
+                submissions still needs its trail and prev/next controls. */}
+            <ListViewBreadcrumb />
+            {isEmptySubmissionData
+              ? <EmptySubmission />
+              : <SubmissionsTable />}
+          </>
+        )}
         {hasError && <ListError />}
         {!isLoaded && !hasError && (
           <div className="w-100 h-100 text-center">
@@ -58,7 +59,6 @@ export class ListView extends React.Component {
 ListView.defaultProps = {};
 ListView.propTypes = {
   // redux
-  courseId: PropTypes.string.isRequired,
   initializeApp: PropTypes.func.isRequired,
   isLoaded: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
@@ -66,7 +66,6 @@ ListView.propTypes = {
 };
 
 export const mapStateToProps = (state) => ({
-  courseId: selectors.app.courseId(state),
   isLoaded: selectors.requests.isCompleted(state, {
     requestKey: RequestKeys.initialize,
   }),

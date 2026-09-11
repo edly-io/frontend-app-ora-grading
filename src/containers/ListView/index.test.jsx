@@ -91,7 +91,6 @@ jest.mock('data/redux', () => ({
 describe('ListView component', () => {
   describe('component', () => {
     const props = {
-      courseId: 'test-course-id',
       isLoaded: false,
       hasError: false,
       isEmptySubmissionData: false,
@@ -135,10 +134,12 @@ describe('ListView component', () => {
           'When learners submit responses, they will appear here',
         ),
       ).toBeInTheDocument();
-      expect(
-        screen.queryByText('Back to all open responses'),
-      ).not.toBeInTheDocument();
       expect(screen.queryByTestId('submissions-table')).not.toBeInTheDocument();
+    });
+
+    it('keeps the breadcrumb and ORA navigation on the empty state', () => {
+      renderWithIntl(<ListView {...props} isLoaded isEmptySubmissionData />);
+      expect(screen.getByTestId('breadcrumb')).toBeInTheDocument();
     });
 
     it('displays ListError component when there is an error', () => {
@@ -172,9 +173,6 @@ describe('ListView component', () => {
     const requestKey = RequestKeys.initialize;
     beforeEach(() => {
       mapped = mapStateToProps(testState);
-    });
-    it('maps courseId from app.courseId selector', () => {
-      expect(mapped.courseId).toEqual(selectors.app.courseId(testState));
     });
     it('maps isLoaded from requests.isCompleted selector', () => {
       expect(mapped.isLoaded).toEqual(

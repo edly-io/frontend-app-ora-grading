@@ -16,6 +16,8 @@ const initialState = {
     type: '',
     rubricConfig: null,
   },
+  oraBreadcrumb: [],
+  courseOras: [],
   showReview: false,
   showRubric: false,
 };
@@ -28,6 +30,13 @@ const app = createSlice({
     loadIsEnabled: (state, { payload }) => ({ ...state, isEnabled: payload }),
     loadCourseMetadata: (state, { payload }) => ({ ...state, courseMetadata: payload }),
     loadOraMetadata: (state, { payload }) => ({ ...state, oraMetadata: payload }),
+    // Fields added by the edly-features-app initialize override; absent against
+    // an LMS without it, so they fall back to empty rather than undefined.
+    loadOraExtras: (state, { payload }) => ({
+      ...state,
+      oraBreadcrumb: payload.oraBreadcrumb || [],
+      courseOras: payload.courseOras || [],
+    }),
     setShowReview: (state, { payload }) => ({
       ...state,
       showReview: payload,

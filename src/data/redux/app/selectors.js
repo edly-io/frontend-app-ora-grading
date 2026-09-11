@@ -16,6 +16,8 @@ export const simpleSelectors = {
   isGrading: mkSimpleSelector(app => app.isGrading),
   isEnabled: mkSimpleSelector(app => app.isEnabled),
   oraMetadata: mkSimpleSelector(app => app.oraMetadata),
+  oraBreadcrumb: mkSimpleSelector(app => app.oraBreadcrumb),
+  courseOras: mkSimpleSelector(app => app.courseOras),
   showReview: mkSimpleSelector(app => app.showReview),
   showRubric: mkSimpleSelector(app => app.showRubric),
 };

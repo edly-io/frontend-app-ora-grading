@@ -10,6 +10,8 @@ import { selectors } from 'data/redux';
 import { locationId } from 'data/constants/app';
 import urls from 'data/services/lms/urls';
 import messages from './messages';
+import EdlyOraBreadcrumb from './EdlyOraBreadcrumb';
+import EdlyOraNav from './EdlyOraNav';
 
 /**
  * <ListViewBreadcrumb />
@@ -20,12 +22,18 @@ export const ListViewBreadcrumb = ({ courseId, oraName }) => (
       <Icon src={ArrowBack} className="d-inline-block mr-3 breadcrumb-arrow" />
       <FormattedMessage {...messages.backToResponses} />
     </Hyperlink>
-    <p className="py-4">
-      <span className="h3">{oraName}</span>
-      <Hyperlink className="align-middle" destination={urls.ora(courseId, locationId())}>
-        <Icon src={Launch} className="d-inline-block" />
-      </Hyperlink>
-    </p>
+    <div className="ora-header">
+      <div className="ora-header-heading">
+        <EdlyOraBreadcrumb />
+        <p className="mb-0">
+          <span className="h3">{oraName}</span>
+          <Hyperlink className="align-middle" destination={urls.ora(courseId, locationId())}>
+            <Icon src={Launch} className="d-inline-block" />
+          </Hyperlink>
+        </p>
+      </div>
+      <EdlyOraNav />
+    </div>
   </>
 );
 ListViewBreadcrumb.defaultProps = {

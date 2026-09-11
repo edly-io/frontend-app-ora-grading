@@ -17,6 +17,10 @@ jest.mock('data/redux', () => ({
   },
 }));
 
+// Edly-added connected children; exercised in their own test files.
+jest.mock('./EdlyOraBreadcrumb', () => () => null);
+jest.mock('./EdlyOraNav', () => () => null);
+
 jest.mock('data/services/lms/urls', () => ({
   openResponse: (courseId) => `openResponseUrl(${courseId})`,
   ora: (courseId, locationId) => `oraUrl(${courseId}, ${locationId})`,
